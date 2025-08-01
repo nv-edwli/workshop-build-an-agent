@@ -30,7 +30,7 @@ services:
                 - CMD-SHELL
                 - curl -f http://localhost:8888/api || exit 1
             timeout: 10s
-        image: ghcr.io/hannahhiendo/build-an-agent/devx:main
+        image: ghcr.io/brevdev/workshop-build-an-agent/devx:main
         ipc: host
         networks:
             - devx
@@ -39,7 +39,7 @@ services:
         restart: always
         user: ubuntu
         volumes:
-            - ../build-an-agent:/project:cached
+            - ../workshop-build-an-agent:/project:cached
             - /var/run/docker.sock:/var/run/docker.sock
     host-config:
         command:
