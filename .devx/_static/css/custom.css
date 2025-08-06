@@ -338,3 +338,14 @@ button:disabled:not([class]) {
     background-position: 0% 50%;
   }
 }
+
+/* allow scrolling to the bottom of the page */
+html {
+  height: auto !important;
+  padding-bottom: calc(100vh - 100px) !important;
+}
+
+/* white background behind zoomed images */
+.medium-zoom-image--opened {
+  background-color: white !important;
+}
