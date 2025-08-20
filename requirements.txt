@@ -1,4 +1,4 @@
-jupyterlab>=4.4.3
+jupyterlab>3.0
 jupyterlab-git>=0.44.0
 jupyter-app-launcher>=0.1.0
 dotenv~=0.9.9

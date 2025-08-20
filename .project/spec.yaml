@@ -11,9 +11,6 @@ layout:
     - path: code/
       type: code
       storage: git
-    - path: assets/
-      type: code
-      storage: gitlfs
 environment:
     base:
         registry: nvcr.io
@@ -26,7 +23,7 @@ environment:
         entrypoint_script: /home/rapids/entrypoint.sh
         labels: []
         apps:
-            - name: jupyterlab
+            - name: devx-lab
               type: jupyterlab
               class: webapp
               start_command: jupyter lab --allow-root --port 8888 --ip 0.0.0.0 --no-browser --NotebookApp.base_url=$PROXY_PREFIX --NotebookApp.default_url=/lab --NotebookApp.allow_origin='*'
@@ -78,23 +75,7 @@ environment:
             target: /opt/conda
     compose_file_path: ""
 execution:
-    apps:
-        - name: devx-lab
-          type: jupyterlab
-          class: webapp
-          start_command: jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --ServerApp.token='' --ServerApp.password_required=False --expose-app-in-browser --NotebookApp.allow_origin='*' --NotebookApp.base_url=$PROXY_PREFIX --NotebookApp.default_url=/lab --allow-root
-          health_check_command: curl -f http://localhost:8888/api || exit 1
-          stop_command: jupyter lab stop 8888
-          user_msg: ""
-          logfile_path: ""
-          timeout_seconds: 60
-          icon_url: ""
-          webapp_options:
-            autolaunch: true
-            port: "8888"
-            proxy:
-                trim_prefix: false
-            url: http://localhost:8888/lab
+    apps: []
     resources:
         gpu:
             requested: 0
@@ -107,3 +88,7 @@ execution:
           target: /project/
           description: Project directory
           options: rw
+        - type: volume
+          target: /nvwb-shared-volume/
+          description: ""
+          options: volumeName=nvwb-shared-volume
