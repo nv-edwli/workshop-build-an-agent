@@ -13,7 +13,7 @@ layout:
       storage: git
     - path: assets/
       type: code
-      storage: git
+      storage: gitlfs
 environment:
     base:
         registry: nvcr.io
@@ -26,7 +26,7 @@ environment:
         entrypoint_script: /home/rapids/entrypoint.sh
         labels: []
         apps:
-            - name: devx-lab
+            - name: DevX-Lab
               type: jupyterlab
               class: webapp
               start_command: jupyter lab --allow-root --port 8888 --ip 0.0.0.0 --no-browser --NotebookApp.base_url=$PROXY_PREFIX --NotebookApp.default_url=/lab --NotebookApp.allow_origin='*' --expose-app-in-browser
