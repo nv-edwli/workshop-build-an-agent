@@ -22,7 +22,7 @@ environment:
         name: RAPIDS with CUDA
         supported_architectures: []
         cuda_version: ""
-        description: ""
+        description: A RAPIDS base with CUDA
         entrypoint_script: /home/rapids/entrypoint.sh
         labels: []
         apps:
@@ -104,6 +104,6 @@ execution:
           description: NGC Personal Key from https://org.ngc.nvidia.com/setup/personal-keys
     mounts:
         - type: project
-          target: /project
+          target: /project/
           description: Project directory
           options: rw
