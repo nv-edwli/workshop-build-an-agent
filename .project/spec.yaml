@@ -51,8 +51,8 @@ environment:
         os_distro_release: "24.04"
         schema_version: ""
         user_info:
-            uid: "1000"
-            gid: "1001"
+            uid: "1001"
+            gid: "1000"
             username: rapids
         package_managers:
             - name: apt
