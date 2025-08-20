@@ -17,7 +17,7 @@ layout:
 environment:
     base:
         registry: nvcr.io
-        image: nvidia/rapidsai/notebooks:25.06-cuda12.8-py3.11
+        image: nvidia/rapidsai/notebooks:25.04-cuda12.8-py3.12
         build_timestamp: ""
         name: RAPIDS with CUDA
         supported_architectures: []
