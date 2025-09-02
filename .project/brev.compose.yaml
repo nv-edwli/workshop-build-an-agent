@@ -16,12 +16,12 @@ services:
                           count: all
                           driver: nvidia
         environment:
-            - LANGSMITH_ENDPOINT=https://api.smith.langchain.com
             - LANGSMITH_PROJECT=sample-searching-agent
             - NGC_API_KEY=${NGC_API_KEY}
             - COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME:-devx}
             - SHELL=/bin/bash
             - LANGSMITH_TRACING=true
+            - LANGSMITH_ENDPOINT=https://api.smith.langchain.com
         healthcheck:
             interval: 30s
             retries: 3
@@ -37,7 +37,6 @@ services:
         ports:
             - 8888:8888
         restart: always
-        user: ubuntu
         volumes:
             - ../workshop-build-an-agent:/project:cached
             - /var/run/docker.sock:/var/run/docker.sock
