@@ -17,19 +17,19 @@ layout:
 environment:
     base:
         registry: nvcr.io
-        image: nvidia/rapidsai/notebooks:25.04-cuda12.8-py3.12
+        image: nvidia/rapidsai/notebooks:24.08-cuda12.2-py3.11
         build_timestamp: ""
         name: RAPIDS with CUDA
         supported_architectures: []
         cuda_version: ""
-        description: ""
+        description: A RAPIDS base with CUDA
         entrypoint_script: /home/rapids/entrypoint.sh
         labels: []
         apps:
-            - name: jupyterlab
+            - name: DevX-Lab
               type: jupyterlab
               class: webapp
-              start_command: jupyter lab --allow-root --port 8888 --ip 0.0.0.0 --no-browser --NotebookApp.base_url=$PROXY_PREFIX --NotebookApp.default_url=/lab --NotebookApp.allow_origin='*'
+              start_command: jupyter lab --allow-root --port 8888 --ip 0.0.0.0 --no-browser --NotebookApp.base_url=$PROXY_PREFIX --NotebookApp.default_url=/lab --NotebookApp.allow_origin='*' --expose-app-in-browser
               health_check_command: '[ \$(echo url=\$(jupyter lab list | head -n 2 | tail -n 1 | cut -f1 -d'' '' | grep -v ''Currently'' | sed "s@/?@/lab?@g") | curl -o /dev/null -s -w ''%{http_code}'' --config -) == ''200'' ]'
               stop_command: jupyter lab stop 8888
               user_msg: ""
@@ -51,8 +51,8 @@ environment:
         os_distro_release: "24.04"
         schema_version: ""
         user_info:
-            uid: "1000"
-            gid: "1001"
+            uid: "1001"
+            gid: "1000"
             username: rapids
         package_managers:
             - name: apt
@@ -78,32 +78,18 @@ environment:
             target: /opt/conda
     compose_file_path: ""
 execution:
-    apps:
-        - name: devx-lab
-          type: jupyterlab
-          class: webapp
-          start_command: jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --ServerApp.token='' --ServerApp.password_required=False --expose-app-in-browser --NotebookApp.allow_origin='*' --NotebookApp.base_url=$PROXY_PREFIX --NotebookApp.default_url=/lab --allow-root
-          health_check_command: curl -f http://localhost:8888/api || exit 1
-          stop_command: jupyter lab stop 8888
-          user_msg: ""
-          logfile_path: ""
-          timeout_seconds: 60
-          icon_url: ""
-          webapp_options:
-            autolaunch: true
-            port: "8888"
-            proxy:
-                trim_prefix: false
-            url: http://localhost:8888/lab
+    apps: []
     resources:
         gpu:
             requested: 0
         sharedMemoryMB: 0
-    secrets:
-        - variable: NGC_API_KEY
-          description: NGC Personal Key from https://org.ngc.nvidia.com/setup/personal-keys
+    secrets: []
     mounts:
         - type: project
-          target: /project
+          target: /project/
           description: Project directory
           options: rw
+        - type: volume
+          target: /nvwb-shared-volume/
+          description: ""
+          options: volumeName=nvwb-shared-volume
