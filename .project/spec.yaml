@@ -17,14 +17,17 @@ layout:
 environment:
     base:
         registry: nvcr.io
-        image: nvidia/rapidsai/notebooks:24.08-cuda12.2-py3.11
-        build_timestamp: ""
-        name: RAPIDS with CUDA
+        image: nvidia/ai-workbench/python-basic:1.0.8
+        build_timestamp: "20250729154429"
+        name: Python Basic
         supported_architectures: []
         cuda_version: ""
-        description: A RAPIDS base with CUDA
-        entrypoint_script: /home/rapids/entrypoint.sh
-        labels: []
+        description: A Python Base with Jupyterlab
+        entrypoint_script: ""
+        labels: 
+            - ubuntu
+            - python3
+            - jupyterlab
         apps:
             - name: DevX-Lab
               type: jupyterlab
@@ -44,38 +47,35 @@ environment:
                 url_command: jupyter lab list | head -n 2 | tail -n 1 | cut -f1 -d' ' | grep -v 'Currently'
         programming_languages:
             - python3
-        icon_url: ""
-        image_version: ""
+        icon_url: https://workbench.download.nvidia.com/static/img/ai-workbench-icon-rectangle.jpg
+        image_version: 1.0.8
         os: linux
         os_distro: ubuntu
-        os_distro_release: "24.04"
-        schema_version: ""
+        os_distro_release: "22.04"
+        schema_version: v2
         user_info:
-            uid: "1001"
-            gid: "1000"
-            username: rapids
+            uid: ""
+            gid: ""
+            username: ""
         package_managers:
             - name: apt
               binary_path: /usr/bin/apt
-              installed_packages: []
-            - name: conda3
-              binary_path: /opt/conda/bin/conda
-              installed_packages:
-                - rapidsai
-                - cudf
-                - cuml
-                - cugraph
-                - rmm
-                - pylibraft
-                - cuspatial
-                - cuxfilter
+              installed_packages: 
+                - curl
+                - git
+                - git-lfs
+                - python3
+                - gcc
+                - python3-dev
+                - python3-pip
+                - vim
             - name: pip
-              binary_path: /opt/conda/bin/pip
+              binary_path: /usr/bin/pip
               installed_packages:
-                - jupyterlab-nvdashboar
+                - jupyterlab==4.3.5
         package_manager_environment:
-            name: conda
-            target: /opt/conda
+            name: ""
+            target: ""
     compose_file_path: ""
 execution:
     apps: []
