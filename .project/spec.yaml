@@ -17,13 +17,13 @@ layout:
 environment:
     base:
         registry: nvcr.io
-        image: nvidia/rapidsai/notebooks:24.08-cuda12.2-py3.11
+        image: nvidia/ai-workbench/python-basic:1.0.8
         build_timestamp: ""
-        name: RAPIDS with CUDA
+        name: Python Basic
         supported_architectures: []
         cuda_version: ""
-        description: A RAPIDS base with CUDA
-        entrypoint_script: /home/rapids/entrypoint.sh
+        description: A Python Basic
+        entrypoint_script: ""
         labels: []
         apps:
             - name: DevX-Lab
@@ -51,31 +51,19 @@ environment:
         os_distro_release: "24.04"
         schema_version: ""
         user_info:
-            uid: "1001"
-            gid: "1000"
-            username: rapids
+            uid: ""
+            gid: ""
+            username: ""
         package_managers:
             - name: apt
               binary_path: /usr/bin/apt
               installed_packages: []
-            - name: conda3
-              binary_path: /opt/conda/bin/conda
-              installed_packages:
-                - rapidsai
-                - cudf
-                - cuml
-                - cugraph
-                - rmm
-                - pylibraft
-                - cuspatial
-                - cuxfilter
             - name: pip
-              binary_path: /opt/conda/bin/pip
-              installed_packages:
-                - jupyterlab-nvdashboar
+              binary_path: /usr/bin/pip
+              installed_packages: []
         package_manager_environment:
-            name: conda
-            target: /opt/conda
+            name: ""
+            target: ""
     compose_file_path: ""
 execution:
     apps: []
@@ -93,3 +81,7 @@ execution:
           target: /nvwb-shared-volume/
           description: ""
           options: volumeName=nvwb-shared-volume
+        - type: host
+          target: /var/host-run/
+          description: Host's Run Directory
+          options: ""
