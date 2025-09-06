@@ -24,7 +24,7 @@ environment:
         cuda_version: ""
         description: A Python Base with Jupyterlab
         entrypoint_script: ""
-        labels: 
+        labels:
             - ubuntu
             - python3
             - jupyterlab
@@ -60,7 +60,7 @@ environment:
         package_managers:
             - name: apt
               binary_path: /usr/bin/apt
-              installed_packages: 
+              installed_packages:
                 - curl
                 - git
                 - git-lfs
@@ -93,3 +93,7 @@ execution:
           target: /nvwb-shared-volume/
           description: ""
           options: volumeName=nvwb-shared-volume
+        - type: host
+          target: /var/host-run/
+          description: Host's Run Directory
+          options: ""
