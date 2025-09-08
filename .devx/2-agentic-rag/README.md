@@ -1,26 +1,27 @@
-# Build An Agent Workshop
+# Agentic RAG Workshop
 
-<img src="_static/robots/hero.png" alt="Workshop Robot Character" style="float:right;max-width:300px;margin:25px;" />
+<img src="_static/robots/surfwithshorts.png" alt="Workshop Robot Character" style="float:right;max-width:300px;margin:25px;" />
 
-The Build An Agent Workshop teaches you how to create AI agents that can perform complex tasks using Large Language Models (LLMs) and tools. You'll build a **Report Generation Agent** - an intelligent system that can research any topic, create comprehensive outlines, write detailed sections, and compile professional reports automatically. Unlike simple workflows, agents are intelligent programs that can adapt to changing requirements, choose tools dynamically, and perform complex reasoning and planning.
+The Agentic RAG Workshop teaches you how to build intelligent Retrieval Augmented Generation (RAG) systems using NVIDIA technology and LangGraph. You'll create an **IT Help Desk Agent** - an intelligent system that can dynamically decide when and how to search knowledge bases to answer user queries. Unlike traditional RAG systems that always perform the same retrieval steps, agentic RAG gives the model control over when and how to use retrieval as a tool.
 
-This workshop will help you get started building AI agents from scratch. At the end of this workshop, you will take home:
+This workshop will help you understand the evolution from basic LLMs to traditional RAG to intelligent agentic RAG systems. At the end of this workshop, you will take home:
 
-* Understanding of the four core components of any AI agent
-* A working document generation agent that can research and write reports
-* Knowledge of how to build agents using LangGraph and NVIDIA NIM
-* A turn-key, portable development environment
-* Your own customized agent ready to share as a launchable
+* Understanding of traditional RAG limitations and how agents solve them
+* A working IT Help Desk agent using ReAct architecture
+* Knowledge of NVIDIA's embedding, reranking, and chat models
+* Experience with LangGraph's agent creation tools
+* A vector database implementation using FAISS
+* Your own customized agentic RAG system
 
-The entire workshop can take anywhere from 2 to 4 hours to complete.
+The entire workshop can take anywhere from 1 to 2 hours to complete.
 
 ## Learning Objectives
 
-By the end of this workshop, you'll know how to create an agent that can:
-- Use tools to perform actions
-- Maintain conversation context
-- Make decisions about next steps
-- Handle complex multi-step workflows
+By the end of this workshop, you'll know how to:
+- Build vector databases with document chunking and embeddings
+- Implement retrieval chains with NVIDIA NeMo Retriever
+- Create ReAct agents that can decide when and how to use those chains
+- Use LangGraph to orchestrate NVIDIA NIM services
 
 > Head over to [Setting up Secrets](secrets) to get started!
 

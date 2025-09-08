@@ -78,13 +78,3 @@ AGENT = create_react_agent(
     tools=[RETRIEVER_TOOL],
     prompt=SYSTEM_PROMPT,
 )
-
-if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
-    _LOGGER.setLevel(logging.INFO)
-
-    # Test the agent
-    response = AGENT.invoke(
-        {"messages": [("user", "How do I file a help desk ticket?")]}
-    )
-    print(f"\n\n\n\n\n{response["messages"][-1].content}\n\n\n\n\n")

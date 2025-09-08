@@ -1,3 +1,5 @@
+* [Introduction to RAG](intro.md)
 * [Setting up Secrets](secrets.md)
-* [Agentic RAG](agentic_rag.md)
-
+* [Building Agentic RAG](agentic_rag.md)
+* [Running Your Agent](running.md)
+* [Migrate to Local NIM](migrate.md)
