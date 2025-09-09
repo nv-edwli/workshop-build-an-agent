@@ -70,9 +70,8 @@ environment:
                 - python3-pip
                 - vim
             - name: pip
-              binary_path: /usr/bin/pip
-              installed_packages:
-                - jupyterlab==4.3.5
+              binary_path: /usr/local/bin/pip3.12
+              installed_packages: []
         package_manager_environment:
             name: ""
             target: ""

@@ -1,5 +1,30 @@
+# install basic deps
+sudo apt-get install -y software-properties-common lsb-release ca-certificates gnupg
+
+# configure user default profile
+cat <<EOM >> ~/.bashrc
+# configure support for loading secrets from project file
+if [ -f /project/secrets.env ]; then
+    set -a
+    source /project/secrets.env
+    set +a
+fi
+
+# configure support for local home directory bin
+export PATH=~/.local/bin/:~/bin:\$PATH
+EOM
+
+# upgrade to python 3.12
+sudo add-apt-repository -y ppa:deadsnakes/ppa
+sudo apt-get update -y
+sudo DEBIAN_FRONTEND=noninteractive apt-get install -y python3.12 python3.12-dev python3.12-venv
+sudo rm -rf /usr/bin/pip*
+sudo python3.12 -m ensurepip --upgrade
+sudo ln -s $(which python3.12) /usr/local/bin/python
+sudo ln -s $(which pip3.12) /usr/local/bin/pip
+sudo pip install --upgrade setuptools pip
+
 # configure custom docker apt repo
-sudo apt-get install -y lsb-release ca-certificates gnupg
 sudo mkdir -p /etc/apt/keyrings
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 echo \
@@ -30,20 +55,6 @@ if [ -S /var/host-run/docker.sock ]; then
     fi
 fi
 export DOCKER_HOST="unix:///var/host-run/docker.sock"
-EOM
-
-# configure support for loading secrets from project file
-cat <<EOM >> ~/.bashrc
-if [ -f /project/secrets.env ]; then
-    set -a
-    source /project/secrets.env
-    set +a
-fi
-EOM
-
-# configure support for local home directory bin
-cat <<EOM | sudo tee /etc/profile.d/home-bin-dirs.sh > /dev/null
-export PATH=\$PATH:~/.local/bin/:~/bin
 EOM
 
 # configure permanent sudo without password
