@@ -17,6 +17,7 @@ from langgraph_sdk import get_sync_client
 BASE_URL = os.getenv("LANGGRAPH_API_URL", "http://127.0.0.1:2024")
 CLIENT = get_sync_client(url=BASE_URL)
 AVATARS = {"ai": "assistant", "user": "user", "tool": "🛠️"}
+STREAMING = False  # Not all models support streaming with tool calling
 
 
 # Configure Streamlit page
@@ -136,17 +137,39 @@ if USER_INPUT:
     message_contents = None
     reasoning_contents = None
     reasoning_expanded_state_key = None
+    stream_mode = ["updates", "messages"] if STREAMING else ["updates", "values"]
     for msg in CLIENT.runs.stream(
         thread_id=THREAD_ID,
         assistant_id=ASSISTANT_ID,
         input={"messages": [{"role": "user", "content": USER_INPUT}]},
-        stream_mode=["messages", "updates"],
+        stream_mode=stream_mode,
     ):
         # Extract the event and data
         event = msg.event.split("/")
         if "metadata" in event:
             continue
         data = msg.data
+
+        # Handle final model responses by emulating the streaming responses
+        if event[0] == "values":
+            # Ensure a message is present
+            if not data.get("messages"):
+                continue
+            new_data = [data.get("messages")[-1]]
+
+            # Skip user messages, they have already been displayed
+            if new_data[0].get("type") == "human":
+                continue
+
+            # Post-process the content
+            raw_content = new_data[0].get("content", "").split("</think>")
+            new_data[0]["content"] = raw_content[-1].strip() or None
+            if len(raw_content) > 1:
+                new_data[0]["additional_kwargs"] = {"reasoning_content": raw_content[0].strip()}
+
+            # Emulate streaming responses
+            event[0] = "messages"
+            data = new_data
 
         # Handle streaming message responses
         if event[0] == "messages":
