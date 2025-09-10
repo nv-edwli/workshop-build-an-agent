@@ -33,14 +33,16 @@ docs = data_loader.load()
 
 # Split the data into chunks and ingest into FAISS vector database
 _LOGGER.info(f"Ingesting {len(docs)} documents into FAISS vector database.")
-splitter = ...
+splitter = RecursiveCharacterTextSplitter(
+    chunk_size=CHUNK_SIZE, chunk_overlap=CHUNK_OVERLAP
+)
 chunks = splitter.split_documents(docs)
-embeddings = ...
-vectordb = FAISS.from_documents(chunks, embeddings)  # type: ignore
+embeddings = NVIDIAEmbeddings(model=RETRIEVER_EMBEDDING_MODEL, truncate="END")
+vectordb = FAISS.from_documents(chunks, embeddings)
 
 # Create a document retriever and reranker
 kb_retriever = vectordb.as_retriever(search_type="similarity", search_kwargs={"k": 6})
-reranker = ...
+reranker = NVIDIARerank(model=RETRIEVER_RERANK_MODEL)
 
 # combine those to create the final document retriever
 RETRIEVER = ContextualCompressionRetriever(
@@ -58,7 +60,13 @@ RETRIEVER_TOOL = create_retriever_tool(
 )
 
 # Define the LLM model to be used for this agent
-llm = ...
+llm = ChatNVIDIA(
+    base_url="http://nemotron:8000/v1",
+    model=LLM_MODEL,
+    temperature=0.6,
+    top_p=0.95,
+    max_tokens=8192
+)
 
 # Define the system prompt for the agent
 SYSTEM_PROMPT = (
@@ -71,4 +79,8 @@ SYSTEM_PROMPT = (
 )
 
 # Create the ReAct agent
-AGENT = ...
+AGENT = create_react_agent(
+    model=llm,
+    tools=[RETRIEVER_TOOL],
+    prompt=SYSTEM_PROMPT,
+)
