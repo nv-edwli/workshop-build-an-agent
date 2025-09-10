@@ -3,6 +3,6 @@
   "graphs": {
     "rag_agent": "./rag_agent.py:AGENT"
   },
-  "env": "../secrets.env"
+  "env": ["../secrets.env", "../variables.env"]
 }
 
