@@ -22,14 +22,10 @@ _QUERIES_PER_SECTION = 5
 _THROTTLE_LLM_CALLS = os.getenv("THROTTLE_LLM_CALLS", "0")
 
 llm = ChatOpenAI(
-    model="nvidia/nemotron-nano-9b-v2",
+    model="nvidia/nemotron-nano-9b-v2:free",
     temperature=0,
     base_url="https://openrouter.ai/api/v1",
-    api_key=os.getenv("OPENROUTER_API_KEY"),
-    default_headers={
-        "HTTP-Referer": "https://github.com/workshop-build-an-agent",
-        "X-Title": "Workshop Build an Agent",
-    }
+    api_key=os.getenv("OPENROUTER_API_KEY")
 )
 
 

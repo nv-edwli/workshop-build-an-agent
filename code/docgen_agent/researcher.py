@@ -16,15 +16,18 @@ _LOGGER = logging.getLogger(__name__)
 _MAX_LLM_RETRIES = 3
 
 llm = ChatOpenAI(
-    model="nvidia/nemotron-nano-9b-v2",
+    model="nvidia/nemotron-nano-9b-v2:free",
     temperature=0,
     base_url="https://openrouter.ai/api/v1",
-    api_key=os.getenv("OPENROUTER_API_KEY"),
-    default_headers={
-        "HTTP-Referer": "https://github.com/workshop-build-an-agent",
-        "X-Title": "Workshop Build an Agent",
-    }
+    api_key=os.getenv("OPENROUTER_API_KEY")
 )
+
+# llm = ChatOpenAI(
+#     model="nvidia/nvidia-nemotron-nano-9b-v2",
+#     temperature=0,
+#     base_url="https://integrate.api.nvidia.com/v1",
+#     api_key="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"
+# )
 llm_with_tools = llm.bind_tools([tools.search_tavily])
 
 
