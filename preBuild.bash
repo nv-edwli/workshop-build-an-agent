@@ -12,6 +12,10 @@ fi
 
 # configure support for local home directory bin
 export PATH=~/.local/bin/:~/bin:\$PATH
+
+# helper for NGC keys
+export NGC_API_KEY=\$NVIDIA_API_KEY
+export NGC_CLI_API_KEY=\$NVIDIA_API_KEY
 EOM
 
 # upgrade to python 3.12
