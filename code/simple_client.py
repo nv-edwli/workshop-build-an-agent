@@ -1,5 +1,5 @@
 """
-Mini LangGraph Studio - A Streamlit interface for LangGraph assistants.
+Simple LangGraph Client - A Streamlit interface for LangGraph assistants.
 
 This application provides a clean web interface for interacting with LangGraph
 assistants, featuring streaming responses, reasoning tags, and debug information.
@@ -9,6 +9,7 @@ import os
 import time
 from typing import Any, Dict, List
 
+import httpx
 import streamlit as st
 import streamlit.components.v1 as components
 from langgraph_sdk import get_sync_client
@@ -19,20 +20,32 @@ AVATARS = {"ai": "assistant", "user": "user", "tool": "🛠️"}
 
 
 # Configure Streamlit page
-st.set_page_config(page_title="Mini Studio", layout="wide", page_icon="🤖")
+st.set_page_config(page_title="Simple Client", layout="wide", page_icon="🤖")
 if "threads" not in st.session_state:
     st.session_state.threads: Dict[str, str] = {}
 if "history" not in st.session_state:
     st.session_state.history: Dict[str, List[Dict[str, str]]] = {}
 
 
-# Load the list of assistants hosted on the langgraph api server
+# Define a helper function to list assistants
 @st.cache_data(show_spinner=False, ttl=90)
 def list_assistants() -> List[Dict[str, Any]]:
     """Fetch available assistants from the server."""
-    return CLIENT.assistants.search(limit=50)
+    try:
+        return CLIENT.assistants.search(limit=50)
+    except httpx.ConnectError as e:
+        st.markdown(
+            """
+            # Uh oh! 😱
+
+            It looks like the LangGraph API server is not reachable. Please check if the server is running.
+            """
+        )
+        e
+        st.stop()
 
 
+# Load the list of assistants hosted on the LangGraph API server
 ALL_ASSISTANTS = list_assistants()
 if not ALL_ASSISTANTS:
     st.warning("No assistants found on the server. Create one first.")
@@ -65,15 +78,15 @@ with st.sidebar:
     st.markdown(f"**Current Thread ID: `{THREAD_ID[:8]}...`**")
 
 
-# Create a junk area for running JS code
-JS_HOLDER = st.container(height=1, border=False)
+# Create a container for running JavaScript code
+JS_CONTAINER = st.container(height=1, border=False)
 
 
 # Helper functions for creating UI elements
 def _create_message_box(persona, tool_name):
     """Create an empty message box with placeholder for reasoning and message contents."""
-    # close all reasoning expanders (technically, this closes all expanders on the page)
-    with JS_HOLDER:
+    # Close all reasoning expanders (technically, this closes all expanders on the page)
+    with JS_CONTAINER:
         components.html(
             """
             <script>
@@ -86,7 +99,7 @@ def _create_message_box(persona, tool_name):
         )
         time.sleep(0.1)
 
-    # new message box
+    # Create new message box
     message_box = CHAT.chat_message(AVATARS.get(persona, "🤖"))
 
     # Add some extra decorations for tool calls
@@ -110,7 +123,7 @@ for msg in st.session_state.history.get(ASSISTANT_ID, []):
     message_contents.markdown(msg["content"])
 
 
-# Handle User input
+# Handle user input
 if USER_INPUT:
     # Add user message to history and display
     st.session_state.history.setdefault(ASSISTANT_ID, []).append(
@@ -140,7 +153,7 @@ if USER_INPUT:
             persona = data[0].get("type", "ai")
             graph_node_name = data[0].get("name", "")
 
-            # Ensure message boxes exists
+            # Ensure message boxes exist
             if reasoning_contents is None or message_contents is None:
                 reasoning_contents, message_contents = _create_message_box(
                     persona, graph_node_name

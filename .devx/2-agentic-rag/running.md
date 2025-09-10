@@ -68,6 +68,8 @@ Will auto reload on changes. Example error log:
 
 ## Chat with the Agent
 
+<button onclick="launch('Simple Agents Client');"><i class="fa-solid fa-rocket"></i> Simple Agents Client</button>
+
 1. run the studio ui
 
 1. interact
