@@ -172,11 +172,11 @@ You should see the model start to answer the question, then get cut off after 64
 
 ## Reconfigure the Agent
 
-We can now point our agent at our locally running NIM.
+Now that your NIM is running locally, let's update your agent to use it.
 
-Recall that back in our agent's code, we defined the `llm` using the <button onclick="goToLineAndSelect('code/rag_agent.py', '= ChatNVIDIA(');"><i class="fas fa-code"></i> ChatNVIDIA</button> class. We need to reconfigure this object to use `http://nemotron:8000/v1` as a base URL.
+In your agent code, you previously created the `llm` object with the <button onclick="goToLineAndSelect('code/rag_agent.py', '= ChatNVIDIA(');"><i class="fas fa-code"></i> ChatNVIDIA</button> class. Connect to your local NIM by setting the `base_url` parameter to `http://nemotron:8000/v1` when initializing `ChatNVIDIA`.
 
-Check out the [official docs](https://python.langchain.com/docs/integrations/chat/nvidia_ai_endpoints/#working-with-nvidia-nims) to see how this code should be updated to point to the local NIM. Make that change now.
+Refer to the [official LangChain documentation](https://python.langchain.com/docs/integrations/chat/nvidia_ai_endpoints/#working-with-nvidia-nims) for more details.
 
 <details>
 <summary>🆘 Need some help?</summary>
@@ -198,11 +198,29 @@ llm = ChatNVIDIA(
 
 ## Test the Results
 
-use langgraph cli, check in playground
+> **👷‍♂️ Heads Up:** For these steps, your `langgraph` server should still be running. If you stopped the server, make sure to [start it back up](running.md). If it is still running, no need to restart! It will see your changes.
+
+Go back to our <button onclick="launch('Simple Agents Client');"><i class="fa-solid fa-rocket"></i> Simple Agents Client</button> and try prompting the agent again. If everything was sucessful, you should notice no change!
+
+Although... if you look at the log messages for the NIM, you should start seeing messages like this:
+
+```
+INFO 2025-09-10 19:08:21.184 httptools_impl.py:481] 172.19.0.3:35474 - "POST /v1/chat/completions HTTP/1.1" 200
+```
 
 <!-- fold:break -->
 
 ## Keep Going!
 
-encourage user to continue by migrating the reranking and embedding models
-give links to the rerank and embedding build pages for help
+<img src="_static/robots/hiking.png" alt="You can reach the top." style="float:right;max-width:300px;margin:25px;" />
+
+So far, we've only migrated one of our three models to run locally.
+
+Recall that our agent also uses two additional models:
+
+  - [Reranker: llama-3_2-nv-rerankqa-1b-v2](https://build.nvidia.com/nvidia/llama-3_2-nv-rerankqa-1b-v2)
+  - [Embedding: llama-3_2-nv-embedqa-1b-v2](https://build.nvidia.com/nvidia/llama-3_2-nv-embedqa-1b-v2)
+
+If you have access to a second GPU, consider running these models locally as well. You can follow the same process as before: consult the official docs for each model, launch their NIM endpoints, and update your agent code to point to the new local URLs (using the `base_url` parameter).
+
+Running all three models locally will give you full control over your agent's stack and may improve performance. Give it a try!
