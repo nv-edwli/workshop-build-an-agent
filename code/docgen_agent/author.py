@@ -1,6 +1,6 @@
 """Authoring workflow for writing sections of a report."""
 
-import json
+import os, json
 import logging
 from typing import Annotated, Any, Sequence
 
