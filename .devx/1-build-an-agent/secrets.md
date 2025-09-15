@@ -24,6 +24,10 @@ Manage your API Keys from the [OpenRouter Keys page](https://openrouter.ai/keys)
 
 </details>
 
+## NGC API Key
+
+NGC is the NVIDIA GPU Cloud. This is the repository for all NVIDIA software, models, and more. You do **not** need to set this API Key for the Introduction to Agents workshop. 
+
 ## Tavily API Key
 
 Tavily is a search API designed for AI agents. It provides real-time web search capabilities that help agents gather up-to-date information from the internet. We will also need a Tavily API key for this workshop.
